@@ -1,0 +1,10 @@
+PLACEHOLDER FILE
+
+Replace this file with your actual album artwork:
+- Filename: album-art.jpg
+- Format: JPG or PNG
+- Recommended size: 1000x1000px (square)
+- High quality/resolution
+
+This placeholder ensures the assets folder structure is maintained.
+Delete this .txt file after adding your album artwork.

@@ -1,0 +1,691 @@
+/* ===================================
+   RESET & BASE STYLES
+   =================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
+    color: #ffffff;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+}
+
+/* ===================================
+   MIRROR CONTAINER
+   =================================== */
+.mirror-container {
+    position: relative;
+    width: 600px;
+    height: 600px;
+    max-width: 90vw;
+    max-height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ===================================
+   CAMERA/REFLECTION LAYER
+   =================================== */
+.camera-layer {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    overflow: hidden;
+    z-index: 1;
+    background: radial-gradient(circle, rgba(40, 40, 50, 0.9) 0%, rgba(10, 10, 15, 0.95) 100%);
+}
+
+#camera-feed {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scaleX(-1); /* Mirror effect */
+    filter: brightness(0.8) contrast(1.1);
+    transition: filter 0.3s ease;
+}
+
+#camera-feed.cracking {
+    filter: brightness(0.6) contrast(1.2) saturate(0.8);
+}
+
+.placeholder-reflection {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle, rgba(60, 60, 80, 0.4) 0%, rgba(20, 20, 30, 0.8) 100%);
+}
+
+.placeholder-reflection.hidden {
+    display: none;
+}
+
+.reflection-text {
+    font-size: 2rem;
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.3);
+    text-align: center;
+    font-style: italic;
+    animation: pulse 3s ease-in-out infinite;
+}
+
+/* ===================================
+   MIRROR FRAME
+   =================================== */
+.mirror-frame {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 15px solid #2a2a2a;
+    box-shadow:
+        0 0 50px rgba(0, 0, 0, 0.8),
+        inset 0 0 50px rgba(255, 255, 255, 0.05),
+        0 0 100px rgba(59, 130, 246, 0.2);
+    z-index: 2;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: transparent;
+}
+
+.mirror-frame:hover {
+    box-shadow:
+        0 0 60px rgba(0, 0, 0, 0.9),
+        inset 0 0 50px rgba(255, 255, 255, 0.08),
+        0 0 120px rgba(59, 130, 246, 0.3);
+}
+
+.mirror-frame.shaking {
+    animation: shake 0.3s ease-in-out;
+}
+
+/* ===================================
+   CRACK CANVAS
+   =================================== */
+#crack-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 3;
+}
+
+/* ===================================
+   TAP INSTRUCTION
+   =================================== */
+.tap-instruction {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 4;
+    pointer-events: none;
+    animation: fadeInScale 1s ease-out;
+}
+
+.tap-instruction.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.tap-instruction h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-shadow: 0 0 30px rgba(255, 255, 255, 0.6);
+    filter: brightness(1.3);
+}
+
+.tap-instruction p {
+    font-size: 1.2rem;
+    color: #e0e0e0;
+    font-weight: 300;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+/* ===================================
+   EASTER EGG FLASH
+   =================================== */
+.easter-egg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #3b82f6;
+    text-shadow: 0 0 20px rgba(59, 130, 246, 0.8);
+    z-index: 5;
+    pointer-events: none;
+    animation: flashEasterEgg 0.5s ease-out;
+}
+
+.easter-egg.hidden {
+    display: none;
+}
+
+@keyframes flashEasterEgg {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.5);
+    }
+    50% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.2);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+/* ===================================
+   SHATTER PARTICLES
+   =================================== */
+.shatter-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.glass-shard {
+    position: absolute;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(200, 200, 200, 0.7) 100%);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    pointer-events: none;
+}
+
+/* ===================================
+   REVEALED CONTENT
+   =================================== */
+.revealed-content {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90vw;
+    max-width: 600px;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    z-index: 15;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 1.5s ease, transform 1.5s ease;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+.revealed-content.visible {
+    opacity: 1;
+    pointer-events: all;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.revealed-content.hidden {
+    display: none;
+}
+
+.album-artwork {
+    width: 600px;
+    height: 600px;
+    max-width: 90vw;
+    max-height: 90vw;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 100px rgba(59, 130, 246, 0.4);
+    margin: 0 auto 30px auto;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.album-artwork img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.invitation-overlay {
+    text-align: center;
+    background: rgba(10, 10, 10, 0.9);
+    padding: 30px 40px;
+    border-radius: 20px;
+    border: 2px solid rgba(59, 130, 246, 0.3);
+    backdrop-filter: blur(10px);
+    max-width: 500px;
+}
+
+.invitation-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #3b82f6 0%, #ffffff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 10px;
+    letter-spacing: 3px;
+}
+
+.invitation-subtitle {
+    font-size: 1.3rem;
+    color: #3b82f6;
+    margin-bottom: 20px;
+    font-weight: 600;
+    letter-spacing: 2px;
+}
+
+.show-details {
+    margin: 20px 0;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 10px;
+}
+
+.detail-line {
+    font-size: 1.1rem;
+    color: #d0d0d0;
+    margin: 10px 0;
+}
+
+.detail-line strong {
+    color: #3b82f6;
+    margin-right: 10px;
+}
+
+.personal-message {
+    font-size: 1rem;
+    color: #d0d0d0;
+    line-height: 1.6;
+    margin: 20px 0;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 10px;
+    font-style: italic;
+    text-align: center;
+}
+
+.personal-message em {
+    color: #3b82f6;
+    font-style: italic;
+}
+
+.ticket-button {
+    display: inline-block;
+    padding: 15px 40px;
+    background: linear-gradient(135deg, #3b82f6 0%, #1e293b 100%);
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 20px;
+}
+
+.ticket-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.6);
+    background: linear-gradient(135deg, #3b82f6 0%, #3b82f6 100%);
+}
+
+.replay-button {
+    display: block;
+    margin: 20px auto 0;
+    padding: 10px 30px;
+    background: transparent;
+    color: #b0b0b0;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.replay-button:hover {
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* ===================================
+   CAMERA PERMISSION PROMPT
+   =================================== */
+.camera-prompt {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    backdrop-filter: blur(10px);
+}
+
+.camera-prompt.hidden {
+    display: none;
+}
+
+.prompt-content {
+    text-align: center;
+    padding: 40px;
+    background: rgba(26, 26, 46, 0.9);
+    border-radius: 20px;
+    border: 2px solid rgba(59, 130, 246, 0.3);
+    max-width: 400px;
+}
+
+.prompt-content h3 {
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+    color: #3b82f6;
+}
+
+.prompt-content p {
+    font-size: 1.1rem;
+    color: #b0b0b0;
+    margin-bottom: 30px;
+}
+
+.allow-button {
+    padding: 12px 30px;
+    background: linear-gradient(135deg, #3b82f6 0%, #1e293b 100%);
+    color: #ffffff;
+    border: none;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-right: 10px;
+}
+
+.allow-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+}
+
+.skip-button {
+    padding: 12px 30px;
+    background: transparent;
+    color: #b0b0b0;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.skip-button:hover {
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+/* ===================================
+   AUDIO INITIALIZATION
+   =================================== */
+.audio-init {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+    padding: 20px;
+}
+
+.audio-init.hidden {
+    display: none;
+}
+
+.intro-text {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.intro-text h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 15px;
+    letter-spacing: 2px;
+    text-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+}
+
+.intro-text p {
+    font-size: 1.2rem;
+    color: #e0e0e0;
+    font-weight: 300;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+.start-button {
+    padding: 20px 50px;
+    background: linear-gradient(135deg, #3b82f6 0%, #1e293b 100%);
+    color: #ffffff;
+    border: none;
+    border-radius: 50px;
+    font-size: 1.3rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    box-shadow: 0 10px 30px rgba(59, 130, 246, 0.4);
+    margin-top: 20px;
+}
+
+.start-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 40px rgba(59, 130, 246, 0.6);
+}
+
+/* ===================================
+   ANIMATIONS
+   =================================== */
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 0.3;
+    }
+    50% {
+        opacity: 0.6;
+    }
+}
+
+@keyframes shake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-5px) rotate(-1deg);
+    }
+    75% {
+        transform: translateX(5px) rotate(1deg);
+    }
+}
+
+@keyframes revealContent {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.5);
+    }
+    50% {
+        opacity: 0.8;
+        transform: translate(-50%, -50%) scale(1.05);
+    }
+    100% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+/* ===================================
+   RESPONSIVE DESIGN
+   =================================== */
+@media (max-width: 768px) {
+    .mirror-container {
+        width: 90vw;
+        height: 90vw;
+        max-width: 400px;
+        max-height: 400px;
+    }
+
+    .tap-instruction h1 {
+        font-size: 1.8rem;
+    }
+
+    .tap-instruction p {
+        font-size: 1rem;
+    }
+
+    .album-artwork {
+        width: 300px;
+        height: 300px;
+    }
+
+    .invitation-overlay {
+        padding: 20px 25px;
+        max-width: 90vw;
+    }
+
+    .invitation-title {
+        font-size: 2rem;
+    }
+
+    .invitation-subtitle {
+        font-size: 1.1rem;
+    }
+
+    .detail-line {
+        font-size: 1rem;
+    }
+
+    .ticket-button {
+        padding: 12px 30px;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .tap-instruction h1 {
+        font-size: 1.5rem;
+        letter-spacing: 1px;
+    }
+
+    .tap-instruction p {
+        font-size: 0.9rem;
+    }
+
+    .album-artwork {
+        width: 250px;
+        height: 250px;
+    }
+
+    .invitation-title {
+        font-size: 1.6rem;
+    }
+
+    .prompt-content {
+        padding: 30px 20px;
+        max-width: 90vw;
+    }
+
+    .intro-text h2 {
+        font-size: 2rem;
+    }
+
+    .intro-text p {
+        font-size: 1rem;
+    }
+
+    .start-button {
+        padding: 15px 35px;
+        font-size: 1.1rem;
+    }
+}
+
+/* ===================================
+   ACCESSIBILITY
+   =================================== */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+button:focus,
+a:focus {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+}
+
+/* ===================================
+   UTILITY CLASSES
+   =================================== */
+.hidden {
+    display: none !important;
+}
+
+.no-select {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+/* Made with Bob */

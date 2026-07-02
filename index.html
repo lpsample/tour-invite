@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Break the Mirror - Homecoming Tour Invitation</title>
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Meta Pixel Code -->
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1712218313550748');
+    fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1712218313550748&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- End Meta Pixel Code -->
+</head>
+<body>
+    <div class="mirror-container">
+        <!-- Camera/Reflection Layer -->
+        <div id="camera-layer" class="camera-layer">
+            <video id="camera-feed" autoplay playsinline muted></video>
+            <div id="placeholder-reflection" class="placeholder-reflection">
+                <div class="reflection-text">Look into the mirror...</div>
+            </div>
+        </div>
+
+        <!-- Mirror Frame -->
+        <div class="mirror-frame">
+            <!-- Canvas for cracks -->
+            <canvas id="crack-canvas"></canvas>
+            
+            <!-- Tap instruction -->
+            <div id="tap-instruction" class="tap-instruction">
+                <h1>TAP TO BREAK THE MIRROR</h1>
+                <p>Break the mirror to reveal your exclusive invitation from Sam</p>
+            </div>
+
+            <!-- Easter egg flash -->
+            <div id="easter-egg" class="easter-egg hidden"></div>
+        </div>
+
+        <!-- Shatter particles container -->
+        <div id="shatter-container" class="shatter-container"></div>
+
+        <!-- Revealed content (album art + invitation) -->
+        <div id="revealed-content" class="revealed-content hidden">
+            <!-- Background music for reveal -->
+            <audio id="reveal-music" preload="auto">
+                <source src="assets/reveal-song.wav" type="audio/wav">
+            </audio>
+            <div class="album-artwork">
+                <img src="assets/tour-poster.jpg" alt="Homecoming Tour Poster" id="album-image">
+            </div>
+            <div class="invitation-overlay">
+                <h2 class="invitation-title">YOU'RE INVITED</h2>
+                <p class="invitation-subtitle">HOMECOMING TOUR</p>
+                <p class="personal-message">Sam is thrilled to personally invite you to the HOMECOMING TOUR ahead of her sophomore album, <em>LOOK IN THE MIRROR AND BEG</em>. It's going to be electric. See you there.</p>
+                <a href="https://www.submithub.com/link/sam-sample-homecoming-tour" id="ticket-button" class="ticket-button" target="_blank">
+                    GET YOUR TICKETS
+                </a>
+                <button id="replay-button" class="replay-button">Break It Again</button>
+            </div>
+        </div>
+
+        <!-- Camera permission prompt -->
+        <div id="camera-prompt" class="camera-prompt hidden">
+            <div class="prompt-content">
+                <h3>See Yourself in the Mirror</h3>
+                <p>Allow camera access for a more immersive experience</p>
+                <button id="allow-camera" class="allow-button">Allow Camera</button>
+                <button id="skip-camera" class="skip-button">Skip</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Audio context initialization (user interaction required) -->
+    <div id="audio-init" class="audio-init hidden">
+        <div class="intro-text">
+            <h2>You've Been Invited</h2>
+            <p>Tap to begin and unlock your exclusive tour invitation from Sam</p>
+        </div>
+        <button id="start-experience" class="start-button">LOOK IN THE MIRROR AND BEG</button>
+    </div>
+
+    <script src="camera-handler.js"></script>
+    <script src="audio-engine.js"></script>
+    <script src="mirror-break.js"></script>
+</body>
+</html>
