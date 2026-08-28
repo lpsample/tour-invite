@@ -40,7 +40,6 @@ class MirrorBreak {
         
         // Configuration
         this.config = {
-            ticketURL: 'https://www.submithub.com/link/sam-sample-homecoming-tour',
             showDate: 'TBA',
             showTime: 'TBA',
             showVenue: 'TBA'
@@ -102,9 +101,7 @@ class MirrorBreak {
         });
         
         // Ticket button with Meta Pixel tracking
-        const ticketButton = document.getElementById('ticket-button');
-        ticketButton.href = this.config.ticketURL;
-        ticketButton.addEventListener('click', () => {
+        document.getElementById('ticket-button').addEventListener('click', () => {
             // Track ticket button click with Meta Pixel
             if (typeof fbq !== 'undefined') {
                 fbq('track', 'InitiateCheckout', {
