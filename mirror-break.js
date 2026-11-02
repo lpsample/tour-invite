@@ -28,8 +28,8 @@ class MirrorBreak {
         // Easter eggs
         this.easterEggs = [
             "Look in the mirror and beg",
-            "Homecoming awaits...",
-            "The tour begins...",
+            "You're invited on December 5...",
+            "Nublu is calling...",
             "Come home",
             "Break free",
             "Don't stop",
@@ -40,9 +40,9 @@ class MirrorBreak {
         
         // Configuration
         this.config = {
-            showDate: 'TBA',
+            showDate: 'December 5',
             showTime: 'TBA',
-            showVenue: 'TBA'
+            showVenue: 'Nublu'
         };
         
         this.init();
